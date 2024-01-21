@@ -34,10 +34,10 @@ def automatic_search():
               lista_ceps =[cep.strip() for cep in input]
               print(lista_ceps)
     
-        search(lista_ceps)
+        search_two(lista_ceps)
     
 
-def search(dados):
+def search_two(dados):
     # Desabilitar o botão enquanto a busca está em andamento
     
     for i in dados:
@@ -92,6 +92,56 @@ def search(dados):
 
     
         #root.after(2000, lambda: cep_input.delete(0, END))
+
+def search():
+    # Desabilitar o botão enquanto a busca está em andamento
+    
+  
+
+
+        url = "https://buscacepinter.correios.com.br/app/endereco/index.php"
+
+        drive.get(url)
+        pyautogui.sleep(2)
+        data = cep_input.get()
+        drive.find_element(By.NAME, "endereco").send_keys(data)
+        pyautogui.sleep(seconds=0.5)
+        #data = cep_input.get()
+        
+        pyautogui.sleep(1)
+        drive.find_element(By.NAME, "btn_pesquisar").click()
+        pyautogui.sleep(1)
+
+
+        logradouro = drive.find_element(
+            By.XPATH, '//*[@id="resultado-DNEC"]/tbody/tr/td[1]'
+        ).text
+        
+        pyautogui.sleep(1)
+
+        bairro = drive.find_element(
+            By.XPATH, '//*[@id="resultado-DNEC"]/tbody/tr/td[2]'
+        ).text
+
+        pyautogui.sleep(1)
+
+        localidade = drive.find_element(
+            By.XPATH, '//*[@id="resultado-DNEC"]/tbody/tr/td[3]'
+        ).text
+    
+        pyautogui.sleep(1)
+
+        cep = drive.find_element(
+            By.XPATH, '//*[@id="resultado-DNEC"]/tbody/tr/td[4]'
+        ).text
+    
+        pyautogui.sleep(3)
+
+        tree_view.insert('',END,values= (logradouro,bairro,localidade,cep))
+
+    
+
+        root.after(2000, lambda: cep_input.delete(0, END))
 
 
 
